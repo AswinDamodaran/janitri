@@ -1,23 +1,41 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { MdOutlineEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { MdOutlineEdit, MdDelete } from "react-icons/md";
 import AddInstallationModal from "./InstallationAdd";
+import { deleteInstallation } from "../../store/installationSlice";
+import { useSnackbar } from "notistack";
 
 function InstallationList() {
+  const dispatch = useDispatch();
   const installations = useSelector((state) => state.installations.list);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const handleDelete = (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this entry?"
+    );
+    enqueueSnackbar("Deleted successfully!", { variant: "success" });
+    if (confirmed) {
+      dispatch(deleteInstallation(id));
+    }
+  };
 
   return (
     <div className="p-4 sm:ml-64 overflow-auto mt-19 bg-subbg border-2 border-border rounded-2xl sm:w-full md:w-[80vw]">
       <AddInstallationModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => {
+          setModalOpen(false);
+          setEditData(null);
+        }}
+        initialData={editData}
       />
       <div className="flex justify-between">
         <h2 className="text-xl font-semibold mb-4 text-text">Installations</h2>
         <button
-          className=" text-text  block m-1 bg-subbg hover:bg-button  font-medium rounded-lg text-sm px-4 py-1 text-center border-button border-2"
+          className="text-text block m-1 bg-subbg hover:bg-button font-medium rounded-lg text-sm px-4 py-1 text-center border-button border-2"
           onClick={(e) => {
             e.stopPropagation();
             setModalOpen(true);
@@ -27,7 +45,7 @@ function InstallationList() {
         </button>
       </div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className=" text-xs text-[#f9fafb] bg-button rounded-lg">
+        <thead className="text-xs text-[#f9fafb] bg-button rounded-lg">
           <tr>
             <th className="px-6 py-3 rounded-l-xl">ID</th>
             <th className="px-6 py-3">Device</th>
@@ -36,9 +54,7 @@ function InstallationList() {
             <th className="px-6 py-3">Checklist Completed</th>
             <th className="px-6 py-3">Training Form Submitted</th>
             <th className="px-6 py-3">Status</th>
-            <th scope="col" className="px-6 py-3 rounded-r-xl">
-              {""}
-            </th>
+            <th scope="col" className="px-6 py-3 rounded-r-xl"></th>
           </tr>
         </thead>
         <tbody>
@@ -50,7 +66,7 @@ function InstallationList() {
               <td className="px-6 py-4">{item.id}</td>
               <td className="px-6 py-4">{item.device}</td>
               <td className="px-6 py-4">{item.facility}</td>
-              <td className="px-6 py-4 ">
+              <td className="px-6 py-4">
                 {item.unboxingPhoto ? (
                   <img
                     src={item.unboxingPhoto}
@@ -81,19 +97,22 @@ function InstallationList() {
                   <span className="capitalize">{item.status}</span>
                 </div>
               </td>
-              <td className="flex align-middle justify-center pt-2 ">
-                <a
-                  className=" text-text  block m-1 bg-subbg hover:text-[#ffb732]  font-medium rounded-lg  p-1 text-center  "
-                  href="#"
+              <td className="flex align-middle justify-center pt-2">
+                <button
+                  className="text-text block m-1 hover:text-[#ffb732] font-medium rounded-lg p-1"
+                  onClick={() => {
+                    setEditData(item);
+                    setModalOpen(true);
+                  }}
                 >
                   <MdOutlineEdit size={20} />
-                </a>{" "}
-                <a
-                  className=" text-text  block m-1 bg-subbg hover:text-[#c72c2c]   font-medium rounded-lg  p-1 text-center  "
-                  href="#"
+                </button>
+                <button
+                  className="text-text block m-1 hover:text-[#c72c2c] font-medium rounded-lg p-1"
+                  onClick={() => handleDelete(item.id)}
                 >
                   <MdDelete size={20} />
-                </a>
+                </button>
               </td>
             </tr>
           ))}

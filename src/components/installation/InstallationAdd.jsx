@@ -1,36 +1,54 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addInstallation } from "../../store/installationSlice";
+import {
+  addInstallation,
+  updateInstallation,
+} from "../../store/installationSlice";
 import { useForm } from "react-hook-form";
+import { useSnackbar } from "notistack";
 
-function AddInstallationModal({ isOpen, onClose }) {
+function AddInstallationModal({ isOpen, onClose, initialData = null }) {
   const dispatch = useDispatch();
+   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const onSubmit = (data) => {
-    const newInstallation = {
-      id: Date.now(),
+    const payload = {
+      id: initialData?.id || Date.now(),
       ...data,
-      checklistCompleted: false,
-      trainingFormSubmitted: false,
-      unboxingPhoto: null,
+      checklistCompleted: initialData?.checklistCompleted ?? false,
+      trainingFormSubmitted: initialData?.trainingFormSubmitted ?? false,
+      unboxingPhoto: initialData?.unboxingPhoto ?? null,
     };
-    dispatch(addInstallation(newInstallation));
+
+    if (initialData) {
+      dispatch(updateInstallation(payload));
+    } else {
+      dispatch(addInstallation(payload));
+    }
+    enqueueSnackbar("Saved!", { variant: "success" });
     reset();
     onClose();
   };
 
   useEffect(() => {
     if (isOpen) {
-      reset();
+      if (initialData) {
+        setValue("device", initialData.device);
+        setValue("facility", initialData.facility);
+        setValue("status", initialData.status);
+      } else {
+        reset();
+      }
     }
-  }, [isOpen, reset]);
+  }, [isOpen, initialData, setValue, reset]);
 
   if (!isOpen) return null;
 
@@ -45,7 +63,7 @@ function AddInstallationModal({ isOpen, onClose }) {
         className="bg-background p-6 rounded-lg w-[80vw] max-w-md shadow-xl"
       >
         <h3 className="text-lg font-semibold mb-4 text-text">
-          Add Installation
+          {initialData ? "Edit Installation" : "Add Installation"}
         </h3>
 
         <div className="mb-3">
@@ -68,7 +86,9 @@ function AddInstallationModal({ isOpen, onClose }) {
             placeholder="Facility name"
           />
           {errors.facility && (
-            <p className="text-red-500 text-xs mt-1">{errors.facility.message}</p>
+            <p className="text-red-500 text-xs mt-1">
+              {errors.facility.message}
+            </p>
           )}
         </div>
 
@@ -96,7 +116,7 @@ function AddInstallationModal({ isOpen, onClose }) {
             type="submit"
             className="px-4 py-1 bg-button text-text2 hover:opacity-90 rounded-lg"
           >
-            Save
+            {initialData ? "Update" : "Save"}
           </button>
         </div>
       </form>

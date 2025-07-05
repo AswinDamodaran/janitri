@@ -1,71 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addContract } from "../../store/trackerSlice";
+import { addContract, updateContract } from "../../store/trackerSlice";
+import { useSnackbar } from "notistack";
 
-function TrackerAdd({ isOpen, onClose }) {
+function TrackerAdd({ isOpen, onClose, initialData }) {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    deviceId: "",
-    contractType: "",
-    status: "Active",
-    startDate: "",
-    endDate: "",
-  });
-
-  const [formErrors, setFormErrors] = useState({});
+  const { register, handleSubmit, reset, setValue } = useForm();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (isOpen) {
-      setFormData({
-        deviceId: "",
-        contractType: "",
-        status: "Active",
-        startDate: "",
-        endDate: "",
+    if (isOpen && initialData) {
+      Object.entries(initialData).forEach(([key, value]) => {
+        setValue(key, value);
       });
-      setFormErrors({});
+    } else {
+      reset();
     }
-  }, [isOpen]);
+  }, [isOpen, initialData, setValue, reset]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error on change
-    if (formErrors[name]) {
-      setFormErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
-  };
-
-  const validate = () => {
-    const errors = {};
-    if (!formData.deviceId.trim()) errors.deviceId = "Device ID is required";
-    if (!formData.contractType.trim()) errors.contractType = "Category is required";
-    if (!formData.startDate) errors.startDate = "Last service date is required";
-    if (!formData.endDate) errors.endDate = "Installation date is required";
-    return errors;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = validate();
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      return;
-    }
-
-    const newTracker = {
-      id: Date.now(),
-      ...formData,
+  const onSubmit = (data) => {
+    const payload = {
+      ...data,
+      id: initialData?.id || Date.now(),
     };
 
-    dispatch(addContract(newTracker));
+    if (initialData) {
+      dispatch(updateContract(payload));
+    } else {
+      dispatch(addContract(payload));
+    }
+    enqueueSnackbar("Saved!", { variant: "success" });
+    reset();
     onClose();
   };
 
@@ -78,101 +44,58 @@ function TrackerAdd({ isOpen, onClose }) {
     >
       <form
         onClick={(e) => e.stopPropagation()}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-background p-6 rounded-lg w-[80vw] max-w-md shadow-xl"
       >
-        <h3 className="text-lg font-semibold mb-4 text-text">Add Tracker</h3>
+        <h3 className="text-lg font-semibold mb-4 text-text">
+          {initialData ? "Edit Tracker" : "Add Tracker"}
+        </h3>
 
-        <div className="mb-3">
-          <label className="block mb-1 text-sm text-text">Device ID</label>
-          <input
-            name="deviceId"
-            value={formData.deviceId}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded bg-subbg text-text ${
-              formErrors.deviceId ? "border-red-500" : "border-border"
-            }`}
-            placeholder="Enter device ID"
-          />
-          {formErrors.deviceId && (
-            <p className="text-red-500 text-xs mt-1">{formErrors.deviceId}</p>
-          )}
-        </div>
+        <input
+          {...register("deviceId", { required: true })}
+          placeholder="Facility ID"
+          className="mb-3 w-full p-2 border border-border rounded bg-subbg text-text"
+        />
 
-        <div className="mb-3">
-          <label className="block mb-1 text-sm text-text">Category</label>
-          <input
-            name="contractType"
-            value={formData.contractType}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded bg-subbg text-text ${
-              formErrors.contractType ? "border-red-500" : "border-border"
-            }`}
-            placeholder="Enter contract type"
-          />
-          {formErrors.contractType && (
-            <p className="text-red-500 text-xs mt-1">{formErrors.contractType}</p>
-          )}
-        </div>
+        <input
+          {...register("contractType", { required: true })}
+          placeholder="Contract Type"
+          className="mb-3 w-full p-2 border border-border rounded bg-subbg text-text"
+        />
 
-        <div className="mb-3">
-          <label className="block mb-1 text-sm text-text">Status</label>
-          <select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="w-full p-2 border border-border rounded bg-subbg text-text"
-          >
-            <option value="Active">Active</option>
-            <option value="Expired">Expired</option>
-          </select>
-        </div>
+        <input
+          type="date"
+          {...register("startDate", { required: true })}
+          className="mb-3 w-full p-2 border border-border rounded bg-subbg text-text"
+        />
 
-        <div className="mb-3">
-          <label className="block mb-1 text-sm text-text">Last Service</label>
-          <input
-            name="startDate"
-            value={formData.startDate}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded bg-subbg text-text ${
-              formErrors.startDate ? "border-red-500" : "border-border"
-            }`}
-            type="date"
-          />
-          {formErrors.startDate && (
-            <p className="text-red-500 text-xs mt-1">{formErrors.startDate}</p>
-          )}
-        </div>
+        <input
+          type="date"
+          {...register("endDate", { required: true })}
+          className="mb-3 w-full p-2 border border-border rounded bg-subbg text-text"
+        />
 
-        <div className="mb-4">
-          <label className="block mb-1 text-sm text-text">Installation (End Date)</label>
-          <input
-            name="endDate"
-            value={formData.endDate}
-            onChange={handleChange}
-            className={`w-full p-2 border rounded bg-subbg text-text ${
-              formErrors.endDate ? "border-red-500" : "border-border"
-            }`}
-            type="date"
-          />
-          {formErrors.endDate && (
-            <p className="text-red-500 text-xs mt-1">{formErrors.endDate}</p>
-          )}
-        </div>
+        <select
+          {...register("status")}
+          className="mb-4 w-full p-2 border border-border rounded bg-subbg text-text"
+        >
+          <option value="Active">Active</option>
+          <option value="Expired">Expired</option>
+        </select>
 
         <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1 bg-text2 hover:bg-gray-400 text-text rounded-lg"
+            className="px-4 py-1 bg-gray-300 hover:bg-gray-400 text-black rounded"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-4 py-1 bg-button text-text2 hover:opacity-90 rounded-lg"
+            className="px-4 py-1 bg-button text-text2 hover:opacity-90 rounded"
           >
-            Save
+            {initialData ? "Update" : "Save"}
           </button>
         </div>
       </form>

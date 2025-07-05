@@ -4,7 +4,7 @@ const initialState = {
   list: [
     {
       id: "INS001",
-      deviceId: "DVC001",
+      device: "DVC001",
       facility: "City Hospital",
       date: "2025-06-10",
       checklistCompleted: true,
@@ -15,7 +15,7 @@ const initialState = {
     },
     {
       id: "INS002",
-      deviceId: "DVC002",
+      device: "DVC002",
       facility: "Clinic A",
       date: "2025-06-12",
       checklistCompleted: false,
@@ -26,7 +26,7 @@ const initialState = {
     },
     {
       id: "INS003",
-      deviceId: "DVC003",
+      device: "DVC003",
       facility: "Clinic B",
       date: "2025-06-15",
       checklistCompleted: true,
@@ -37,7 +37,7 @@ const initialState = {
     },
     {
       id: "INS004",
-      deviceId: "DVC004",
+      device: "DVC004",
       facility: "Health Center 1",
       date: "2025-06-17",
       checklistCompleted: false,
@@ -48,7 +48,7 @@ const initialState = {
     },
     {
       id: "INS005",
-      deviceId: "DVC005",
+      device: "DVC005",
       facility: "City Hospital",
       date: "2025-06-18",
       checklistCompleted: true,
@@ -59,7 +59,7 @@ const initialState = {
     },
     {
       id: "INS006",
-      deviceId: "DVC006",
+      device: "DVC006",
       facility: "Clinic C",
       date: "2025-06-20",
       checklistCompleted: false,
@@ -70,7 +70,7 @@ const initialState = {
     },
     {
       id: "INS007",
-      deviceId: "DVC007",
+      device: "DVC007",
       facility: "Clinic A",
       date: "2025-06-21",
       checklistCompleted: true,
@@ -81,7 +81,7 @@ const initialState = {
     },
     {
       id: "INS008",
-      deviceId: "DVC008",
+      device: "DVC008",
       facility: "Clinic D",
       date: "2025-06-22",
       checklistCompleted: false,
@@ -92,7 +92,7 @@ const initialState = {
     },
     {
       id: "INS009",
-      deviceId: "DVC009",
+      device: "DVC009",
       facility: "Health Center 2",
       date: "2025-06-24",
       checklistCompleted: true,
@@ -103,7 +103,7 @@ const initialState = {
     },
     {
       id: "INS010",
-      deviceId: "DVC010",
+      device: "DVC010",
       facility: "City Hospital",
       date: "2025-06-25",
       checklistCompleted: false,
@@ -114,7 +114,7 @@ const initialState = {
     },
     {
       id: "INS011",
-      deviceId: "DVC011",
+      device: "DVC011",
       facility: "Clinic B",
       date: "2025-06-26",
       checklistCompleted: true,
@@ -125,7 +125,7 @@ const initialState = {
     },
     {
       id: "INS012",
-      deviceId: "DVC012",
+      device: "DVC012",
       facility: "Clinic C",
       date: "2025-06-28",
       checklistCompleted: false,
@@ -136,7 +136,7 @@ const initialState = {
     },
     {
       id: "INS013",
-      deviceId: "DVC013",
+      device: "DVC013",
       facility: "Clinic D",
       date: "2025-06-29",
       checklistCompleted: true,
@@ -147,7 +147,7 @@ const initialState = {
     },
     {
       id: "INS014",
-      deviceId: "DVC014",
+      device: "DVC014",
       facility: "Health Center 1",
       date: "2025-06-30",
       checklistCompleted: false,
@@ -158,7 +158,7 @@ const initialState = {
     },
     {
       id: "INS015",
-      deviceId: "DVC015",
+      device: "DVC015",
       facility: "Clinic A",
       date: "2025-07-01",
       checklistCompleted: true,

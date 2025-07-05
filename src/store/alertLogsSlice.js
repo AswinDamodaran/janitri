@@ -1,50 +1,51 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import image from "../assets/profile.svg";
 
 const initialLogs = [
   {
-    id: 'AL001',
-    device: 'DVC001',
-    condition: 'Damaged casing during unboxing',
-    alert: 'Casing cracked on delivery',
-    photoUrl: 'https://via.placeholder.com/150',
+    id: "AL001",
+    device: "DVC001",
+    condition: "Damaged casing during unboxing",
+    alert: "Casing cracked on delivery",
+    photoUrl: image,
+    showImage: true,
+  },
+  {
+    id: "AL002",
+    device: "DVC003",
+    condition: "Working fine",
+    alert: "",
+    photoUrl: image,
+    showImage: true,
+  },
+  {
+    id: "AL003",
+    device: "DVC005",
+    condition: "Display flickers",
+    alert: "Screen malfunction observed",
+    photoUrl: image,
+    showImage: true,
+  },
+  {
+    id: "AL004",
+    device: "DVC009",
+    condition: "Battery not holding charge",
+    alert: "Battery drops to 0% rapidly",
+    photoUrl: "https://via.placeholder.com/150",
     showImage: false,
   },
   {
-    id: 'AL002',
-    device: 'DVC003',
-    condition: 'Working fine',
-    alert: '',
-    photoUrl: '',
-    showImage: false,
-  },
-  {
-    id: 'AL003',
-    device: 'DVC005',
-    condition: 'Display flickers',
-    alert: 'Screen malfunction observed',
-    photoUrl: 'https://via.placeholder.com/150',
-    showImage: false,
-  },
-  {
-    id: 'AL004',
-    device: 'DVC009',
-    condition: 'Battery not holding charge',
-    alert: 'Battery drops to 0% rapidly',
-    photoUrl: 'https://via.placeholder.com/150',
-    showImage: false,
-  },
-  {
-    id: 'AL005',
-    device: 'DVC011',
-    condition: 'Buttons not responsive',
-    alert: 'No response when pressed',
-    photoUrl: 'https://via.placeholder.com/150',
+    id: "AL005",
+    device: "DVC011",
+    condition: "Buttons not responsive",
+    alert: "No response when pressed",
+    photoUrl: "https://via.placeholder.com/150",
     showImage: false,
   },
 ];
 
 const alertLogsSlice = createSlice({
-  name: 'alertLogs',
+  name: "alertLogs",
   initialState: {
     list: initialLogs,
   },
@@ -64,5 +65,6 @@ const alertLogsSlice = createSlice({
   },
 });
 
-export const { addLog, toggleImageVisibility, deleteLog } = alertLogsSlice.actions;
+export const { addLog, toggleImageVisibility, deleteLog } =
+  alertLogsSlice.actions;
 export default alertLogsSlice.reducer;

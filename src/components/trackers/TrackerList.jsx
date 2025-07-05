@@ -1,31 +1,50 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { MdOutlineEdit, MdDelete } from "react-icons/md";
 import TrackerAdd from "./TrackerAdd";
+import { deleteContract } from "../../store/trackerSlice";
+import { useSnackbar } from "notistack";
 
 function TrackerList() {
   const contracts = useSelector((state) => state.contracts.list);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const dispatch = useDispatch();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const handleDelete = (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this entry?"
+    );
+    dispatch(deleteContract(id));
+    enqueueSnackbar("Deleted successfully!", { variant: "success" });
+  };
 
   return (
     <div className="p-4 sm:ml-64 overflow-auto mt-19 bg-subbg border-2 border-border rounded-2xl sm:w-full md:w-[80vw]">
-      {/* Modal */}
-      <TrackerAdd isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <TrackerAdd
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setEditData(null);
+        }}
+        initialData={editData}
+      />
 
       <div className="flex justify-between">
         <h2 className="text-xl font-semibold mb-4 text-text">Trackers</h2>
         <button
           className="text-text block m-1 bg-subbg hover:bg-button font-medium rounded-lg text-sm px-4 py-1 text-center border-button border-2"
-          onClick={(e) => {
-            e.stopPropagation();
+          onClick={() => {
             setModalOpen(true);
+            setEditData(null);
           }}
         >
           Add
         </button>
       </div>
 
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-[#f9fafb] bg-button rounded-lg">
           <tr>
             <th className="px-6 py-3 rounded-l-xl">ID</th>
@@ -62,18 +81,21 @@ function TrackerList() {
               <td className="px-6 py-4">{item.status}</td>
               <td className="px-6 py-4">
                 <div className="flex align-middle justify-center pt-2">
-                  <a
-                    className="text-text block m-1 bg-subbg hover:text-[#ffb732] font-medium rounded-lg p-1 text-center"
-                    href="#"
+                  <button
+                    onClick={() => {
+                      setEditData(item);
+                      setModalOpen(true);
+                    }}
+                    className="text-text block m-1 bg-subbg hover:text-[#ffb732] font-medium rounded-lg p-1"
                   >
                     <MdOutlineEdit size={20} />
-                  </a>
-                  <a
-                    className="text-text block m-1 bg-subbg hover:text-[#c72c2c] font-medium rounded-lg p-1 text-center"
-                    href="#"
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="text-text block m-1 bg-subbg hover:text-[#c72c2c] font-medium rounded-lg p-1"
                   >
                     <MdDelete size={20} />
-                  </a>
+                  </button>
                 </div>
               </td>
             </tr>

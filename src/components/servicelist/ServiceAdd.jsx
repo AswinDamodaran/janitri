@@ -1,27 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { addServiceVisit } from "../../store/serviceSlice"; 
+import { addServiceVisit, updateServiceVisit } from "../../store/serviceSlice"; // ✅ import update
+import { useSnackbar } from "notistack";
 
-function ServiceAdd({ isOpen, onClose }) {
+function ServiceAdd({ isOpen, onClose, initialData }) {
   const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm();
-  
+  const { register, handleSubmit, reset, setValue } = useForm();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (isOpen && initialData) {
+      Object.entries(initialData).forEach(([key, value]) => {
+        setValue(key, value);
+      });
+    } else {
+      reset();
+    }
+  }, [isOpen, initialData, setValue, reset]);
 
   const onSubmit = (data) => {
-    const newService = {
-      id: Date.now(),
+    const attachments =
+      data.attachments && data.attachments.length > 0
+        ? [data.attachments[0].name]
+        : initialData?.attachments || [];
+
+    const payload = {
       ...data,
-      attachments: data.attachments?.[0]?.name || "",
+      id: initialData?.id || `SV${Date.now()}`,
+      attachments,
     };
-    dispatch(addServiceVisit(newService));
+
+    if (initialData) {
+      dispatch(updateServiceVisit(payload));
+    } else {
+      dispatch(addServiceVisit(payload));
+    }
+    enqueueSnackbar("Saved!", { variant: "success" });
     reset();
     onClose();
-    console.log(data)
   };
 
   if (!isOpen) return null;
@@ -29,14 +46,16 @@ function ServiceAdd({ isOpen, onClose }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 flex items-center justify-center z-50  bg-opacity-30 backdrop-blur-md"
+      className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-30 backdrop-blur-md"
     >
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit(onSubmit)}
         className="bg-background p-6 rounded-lg w-[80vw] max-w-md shadow-xl"
       >
-        <h3 className="text-lg font-semibold mb-4 text-text">Add Service Visit</h3>
+        <h3 className="text-lg font-semibold mb-4 text-text">
+          {initialData ? "Edit Service Visit" : "Add Service Visit"}
+        </h3>
 
         <div className="mb-3">
           <label className="block mb-1 text-sm text-text">Device ID</label>
@@ -90,6 +109,11 @@ function ServiceAdd({ isOpen, onClose }) {
             {...register("attachments")}
             className="w-full p-2 border border-border rounded text-text bg-subbg"
           />
+          {initialData?.attachments && (
+            <p className="text-xs mt-1 text-text">
+              Existing: {initialData.attachments}
+            </p>
+          )}
         </div>
 
         <div className="flex justify-end gap-2">
@@ -104,7 +128,7 @@ function ServiceAdd({ isOpen, onClose }) {
             type="submit"
             className="px-4 py-1 bg-button text-text2 hover:opacity-90 rounded"
           >
-            Save
+            {initialData ? "Update" : "Save"}
           </button>
         </div>
       </form>
