@@ -8,14 +8,16 @@ import { MdOutlineTrackChanges } from "react-icons/md";
 import { IoIosPhotos } from "react-icons/io";
 import DarkMode from "./DarkMode";
 import DeviceList from "./DeviceList";
+import InstallationList from "./InstallationList";
 
 function MainPage() {
   const [sidebar, setSidebar] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [tableView,setTableView]=useState("devices")
 
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full bg-subbg border-b border-gray-200 px-5">
+      <nav className="fixed top-0 z-50 w-full bg-subbg  px-5 border-border border-2">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
@@ -25,7 +27,7 @@ function MainPage() {
                 aria-controls="logo-sidebar"
                 type="button"
                 onClick={() => setSidebar((prev) => !prev)}
-                className="inline-flex items-center p-2 text-sm text-text rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className="inline-flex items-center p-2 text-sm text-text rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               >
                 <span className="sr-only">Open sidebar</span>
                 <svg
@@ -54,9 +56,7 @@ function MainPage() {
             </div>
             <div className="flex items-center">
               <div className="flex items-center ms-3 gap-3">
-                
                 <div>
-                  
                   <button
                     type="button"
                     className="flex text-sm bg-subbg rounded-full focus:ring-4 focus:ring-gray-300"
@@ -72,7 +72,7 @@ function MainPage() {
                     />
                   </button>
                 </div>
-                <DarkMode/>
+                <DarkMode />
                 <div
                   className={`z-50 ${
                     profileOpen ? "block" : "hidden"
@@ -151,6 +151,7 @@ function MainPage() {
               <a
                 href="#"
                 className="flex items-center p-2 text-text  hover:bg-button "
+                onClick={()=>setTableView("device")}
               >
                 <MdOutlineDevicesOther />
                 <span className="ms-3">Devices</span>
@@ -159,6 +160,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
+                onClick={()=>setTableView("installation")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <MdModelTraining />
@@ -170,6 +172,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
+                onClick={()=>setTableView("service")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <MdOutlineHomeRepairService />
@@ -181,6 +184,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
+                onClick={()=>setTableView("tracker")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <MdOutlineTrackChanges />
@@ -192,6 +196,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
+                onClick={()=>setTableView("alerts")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <IoIosPhotos />
@@ -203,10 +208,10 @@ function MainPage() {
           </ul>
         </div>
       </aside>
+      {tableView ==="device" && <DeviceList/>}
+      {tableView ==="installation" && <InstallationList/>}
+
       
-<DeviceList/>
-
-
     </>
   );
 }

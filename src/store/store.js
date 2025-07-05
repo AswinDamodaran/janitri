@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import deviceSlice from './deviseSlice'
-import installationReducer from './installationSlice'
+import deviceSlice from './deviceSlice'
+import installationReducer from '././installationSlice'
 
 const store = configureStore({
   reducer: {
