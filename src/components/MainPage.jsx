@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import userIcon from "../assets/profile3.svg";
+import userIcon from "../assets/profile4.svg";
 import logo from "../assets/globe.svg";
 import { MdOutlineDevicesOther } from "react-icons/md";
 import { MdModelTraining } from "react-icons/md";
@@ -7,27 +7,39 @@ import { MdOutlineHomeRepairService } from "react-icons/md";
 import { MdOutlineTrackChanges } from "react-icons/md";
 import { IoIosPhotos } from "react-icons/io";
 import DarkMode from "./DarkMode";
-import DeviceList from "./DeviceList";
-import InstallationList from "./InstallationList";
+import DeviceList from "./devices/DeviceList";
+import InstallationList from "./installation/InstallationList";
+import ServiceList from "./servicelist/ServiceList";
+import TrackerList from "./trackers/TrackerList";
+import AlertList from "./Alert logs/AlertList";
 
 function MainPage() {
   const [sidebar, setSidebar] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [tableView,setTableView]=useState("devices")
+  const [tableView, setTableView] = useState("device");
 
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full bg-subbg  px-5 border-border border-2">
-        <div className="px-3 py-3 lg:px-5 lg:pl-3">
-          <div className="flex items-center justify-between">
+      <nav
+        className="fixed top-0 z-50 w-full bg-subbg  pl-0 "
+        onClick={() => {
+          setSidebar(false);
+          setProfileOpen(false)
+        }}
+      >
+        <div className="px-2 py-3 lg:px-5 lg:pl-3">
+          <div className="flex items-center justify-between ">
             <div className="flex items-center justify-start rtl:justify-end">
               <button
                 data-drawer-target="logo-sidebar"
                 data-drawer-toggle="logo-sidebar"
                 aria-controls="logo-sidebar"
                 type="button"
-                onClick={() => setSidebar((prev) => !prev)}
-                className="inline-flex items-center p-2 text-sm text-text rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSidebar((prev) => !prev);
+                }}
+                className="inline-flex items-center p-2 text-sm text-text rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               >
                 <span className="sr-only">Open sidebar</span>
                 <svg
@@ -48,20 +60,26 @@ function MainPage() {
                 href="#"
                 className="flex items-center space-x-3 rtl:space-x-reverse"
               >
-                <img src={logo} className="h-8" alt="test Logo" />
-                <span className="self-center text-2xl font-semibold whitespace-nowrap text-button">
+                <img src={logo} className="h-8 ml-3" alt="test Logo" />
+                <span className="self-center text-2xl font-semibold whitespace-nowrap text-background">
                   Test
                 </span>
               </a>
             </div>
             <div className="flex items-center">
-              <div className="flex items-center ms-3 gap-3">
+              <div
+                className="flex items-center ms-3 gap-3 "
+                onClick={() => setSidebar(false)}
+              >
                 <div>
                   <button
                     type="button"
                     className="flex text-sm bg-subbg rounded-full focus:ring-4 focus:ring-gray-300"
                     aria-expanded={profileOpen}
-                    onClick={() => setProfileOpen((prev) => !prev)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProfileOpen((prev) => !prev);
+                    }}
                     data-dropdown-toggle="dropdown-user"
                   >
                     <span className="sr-only">Open user menu</span>
@@ -100,33 +118,6 @@ function MainPage() {
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
-                        Dashboard
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Settings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Earnings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
                         Sign out
                       </a>
                     </li>
@@ -139,19 +130,23 @@ function MainPage() {
       </nav>
 
       <aside
-        id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-15 transition-transform ${
+               onClick={() => {
+          setSidebar(false);
+          setProfileOpen(false)
+        }}
+        id="logo-sidebar "
+        className={`fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform ${
           sidebar ? "translate-x-0" : "-translate-x-full"
         } bg-background border-gray-200 sm:translate-x-0 dark:border-gray-700`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 pb-4 overflow-y-auto bg-subbg text-text">
+        <div className="h-full px-3 pb-4 overflow-y-auto bg-subbg text-text mt-2 pt-10 ">
           <ul className="space-y-2 font-medium">
             <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-text  hover:bg-button "
-                onClick={()=>setTableView("device")}
+                className="flex items-center p-2 text-text rounded-lg   hover:bg-button "
+                onClick={() => setTableView("device")}
               >
                 <MdOutlineDevicesOther />
                 <span className="ms-3">Devices</span>
@@ -160,7 +155,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
-                onClick={()=>setTableView("installation")}
+                onClick={() => setTableView("installation")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <MdModelTraining />
@@ -172,7 +167,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
-                onClick={()=>setTableView("service")}
+                onClick={() => setTableView("service")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <MdOutlineHomeRepairService />
@@ -184,7 +179,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
-                onClick={()=>setTableView("tracker")}
+                onClick={() => setTableView("tracker")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <MdOutlineTrackChanges />
@@ -196,7 +191,7 @@ function MainPage() {
             <li>
               <a
                 href="#"
-                onClick={()=>setTableView("alerts")}
+                onClick={() => setTableView("alerts")}
                 className="flex items-center p-2 text-text rounded-lg  hover:bg-button "
               >
                 <IoIosPhotos />
@@ -208,10 +203,19 @@ function MainPage() {
           </ul>
         </div>
       </aside>
-      {tableView ==="device" && <DeviceList/>}
-      {tableView ==="installation" && <InstallationList/>}
-
-      
+      <div
+        className="flex justify-center bg-background"
+        onClick={() => {
+          setSidebar(false);
+          setProfileOpen(false);
+        }}
+      >
+        {tableView === "device" && <DeviceList />}
+        {tableView === "installation" && <InstallationList />}
+        {tableView === "service" && <ServiceList />}
+        {tableView === "tracker" && <TrackerList />}
+        {tableView === "alerts" && <AlertList />}
+      </div>
     </>
   );
 }

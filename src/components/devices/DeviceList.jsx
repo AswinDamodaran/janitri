@@ -5,41 +5,47 @@ function DeviceList() {
   const devices = useSelector((state) => state.devices.list);
 
   return (
-    <div className="p-4 sm:ml-60 border-2 border-border overflow-auto mt-11">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className=" text-xs text-text bg-button ">
+    <div className="p-4 sm:ml-64 overflow-auto mt-19 bg-subbg border-2 border-border rounded-2xl sm:w-full md:w-[81vw] lg:w-[81vw]">
+      <div className="flex justify-between  items-center">
+        <h2 className="text-xl font-semibold mb-4 text-text">Devices</h2>
+      </div>
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead className=" text-xs text-[#f9fafb] bg-button rounded-lg">
           <tr>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 rounded-l-xl">
               ID
             </th>
             <th scope="col" className="px-6 py-3">
-              Facility
+              FACILITY
             </th>
             <th scope="col" className="px-6 py-3">
-              Category
+              CATEGORY
             </th>
             <th scope="col" className="px-6 py-3">
-              Status
+              STATUS
             </th>
             <th scope="col" className="px-6 py-3">
-              Battery
+              BATTERY
             </th>
             <th scope="col" className="px-6 py-3">
-              Last Service
+              LAST SERVICE
             </th>
             <th scope="col" className="px-6 py-3">
-              Installation 
+              INSTALLATION
             </th>
             <th scope="col" className="px-6 py-3">
-              AMC Status
+              AMC STATUS
             </th>
+            {/* <th scope="col" className="px-6 py-3 rounded-r-xl">
+              {""}
+            </th> */}
           </tr>
         </thead>
         <tbody className="text-text">
           {devices.map((device) => (
             <tr
               key={device.id}
-              className="bg-subbg border-b dark:border-gray-700 border-gray-200"
+              className="bg-subbg border-border border-b-2 text-text"
             >
               <th
                 scope="row"
