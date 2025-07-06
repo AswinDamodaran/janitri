@@ -36,9 +36,6 @@ function DeviceList() {
             <th scope="col" className="px-6 py-3">
               AMC STATUS
             </th>
-            {/* <th scope="col" className="px-6 py-3 rounded-r-xl">
-              {""}
-            </th> */}
           </tr>
         </thead>
         <tbody className="text-text">

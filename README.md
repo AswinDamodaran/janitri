@@ -1,12 +1,47 @@
-# React + Vite
+Device CRM + Inventory Management Dashboard
+A full-featured admin dashboard for managing medical device inventory, service records, contracts (AMC/CMC), installations, training logs, and document uploads. Built with React, Redux, Material UI, and SCSS Modules.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features
+Device Inventory Dashboard: View all devices with status, battery percentage, and AMC/CMC details.
 
-Currently, two official plugins are available:
+Installation & Training Module: Log installations, upload unboxing photos, and submit training records.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Service Visit Logs: Track field visits, breakdowns, and preventive maintenance.
 
-## Expanding the ESLint configuration
+AMC/CMC Tracker: View and export contract information, including upcoming expirations.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Alerts & Photo Logs: Upload photos and logs for device conditions or alerts.
+
+CRUD Operations: Full create, read, update, and delete functionality for all major workflows.
+
+Tech Stack
+React (with Vite)
+
+Redux
+
+Material UI
+
+SCSS Modules
+
+Tailwind CSS
+
+Flowbite
+
+React Forms
+
+Notistack (toast notifications)
+
+React Icons
+
+Installation
+Clone the repository:
+git clone https://github.com/your-username/device-crm-dashboard.git
+
+Navigate into the project directory:
+cd device-crm-dashboard
+
+Install dependencies:
+npm install
+
+Start the development server:
+npm run dev

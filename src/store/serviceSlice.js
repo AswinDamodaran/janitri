@@ -83,15 +83,6 @@ const initialState = {
       notes: "Preventive servicing done. Functional test passed.",
       attachments: [],
     },
-    {
-      id: "SV010",
-      deviceId: "DVC010",
-      date: "2025-06-09",
-      engineer: "Suresh Patil",
-      purpose: "Breakdown",
-      notes: "Device overheating. Replaced cooling fan.",
-      attachments: ["/photos/service10.jpg"],
-    },
   ],
 };
 

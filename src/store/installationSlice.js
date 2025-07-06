@@ -3,28 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   list: [
     {
-      id: "INS001",
-      device: "DVC001",
-      facility: "City Hospital",
-      date: "2025-06-10",
-      checklistCompleted: true,
-      trainer: "Dr. Rajeev Sharma",
-      trainee: "Nurse Asha",
-      photoURL: "/photos/unboxing1.jpg",
-      status: "Completed",
-    },
-    {
-      id: "INS002",
-      device: "DVC002",
-      facility: "Clinic A",
-      date: "2025-06-12",
-      checklistCompleted: false,
-      trainer: "Mr. Anand Kumar",
-      trainee: "Dr. Seema",
-      photoURL: "/photos/unboxing2.jpg",
-      status: "In Progress",
-    },
-    {
       id: "INS003",
       device: "DVC003",
       facility: "Clinic B",
@@ -170,7 +148,6 @@ const initialState = {
   ],
 };
 
-
 const installationSlice = createSlice({
   name: "installations",
   initialState,
@@ -179,7 +156,9 @@ const installationSlice = createSlice({
       state.list.push(action.payload);
     },
     updateInstallation: (state, action) => {
-      const index = state.list.findIndex((item) => item.id === action.payload.id);
+      const index = state.list.findIndex(
+        (item) => item.id === action.payload.id
+      );
       if (index !== -1) {
         state.list[index] = action.payload;
       }
@@ -190,10 +169,7 @@ const installationSlice = createSlice({
   },
 });
 
-export const {
-  addInstallation,
-  updateInstallation,
-  deleteInstallation,
-} = installationSlice.actions;
+export const { addInstallation, updateInstallation, deleteInstallation } =
+  installationSlice.actions;
 
 export default installationSlice.reducer;

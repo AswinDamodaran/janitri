@@ -8,7 +8,6 @@ body,
   padding: 0;
 }
 
-/* @custom-variant dark (&:where(.dark, .dark *)); */
 @theme {
   --color-background: var(--background);
   --color-border: var(--border);
@@ -16,30 +15,25 @@ body,
   --color-btntext: var(--btntext);
   --color-button: rgb(16 82 229);
   --color-btnhover: var(--btnhover);
-  --color-loginbg: var(--loginbg);
   --color-subbg: var(--subbg);
   --color-text2: var(--text2);
 }
 
 :root {
-  --color-background: rgb(159 190 248); /* palette.background.default */
-  --color-subbg: rgb(255 255 255); /* palette.background.paper */
-  --color-border: rgba(0, 0, 0, 0.1); /* palette.divider */
-  --color-text: #111827; /* palette.text.primary */
-  --color-text2: #f9fafb; /* palette.text.secondary */
-  --color-btntext: #ffffff; /* palette.primary.contrastText */
-  --color-btnhover: #374151; /* hover override */
-  --color-loginbg: #111827; /* fallback - not used in MUI but can be reused */
+  --color-background: rgb(159 190 248);
+  --color-subbg: rgb(255 255 255); 
+  --color-border: rgba(0, 0, 0, 0.1); 
+  --color-text: #111827; 
+  --color-text2: #f9fafb; 
+  --color-btntext: #ffffff;
 }
 
 .dark {
-  --color-background: #0f1112; /* palette.background.default */
-  --color-subbg: rgb(55 60 69); /* palette.background.paper */
-  --color-border: rgba(255, 255, 255, 0.1); /* palette.divider */
-  --color-text: #f9fafb; /* palette.text.primary */
+  --color-background: #0f1112; 
+  --color-subbg: rgb(55 60 69); 
+  --color-border: rgba(255, 255, 255, 0.1); 
+  --color-text: #f9fafb; 
+  --color-text2: #111827; 
+  --color-btntext: #111827; 
 
-  --color-text2: #111827; /* palette.text.secondary */
-  --color-btntext: #111827; /* palette.primary.contrastText */
-  --color-btnhover: #e5e7eb; /* hover override */
-  --color-loginbg: #1f2937; /* fallback - same as subbg */
 }
